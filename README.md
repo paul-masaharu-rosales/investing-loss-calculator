@@ -1,0 +1,1 @@
+# investing-loss-calculator
