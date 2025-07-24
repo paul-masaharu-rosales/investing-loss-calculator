@@ -1,0 +1,5 @@
+<<<<<<< HEAD
+
+=======
+.env
+>>>>>>> ab39908 (basic template of investing calculator, will pull from yfinance and track stock data. Will also track percent and amount gained or lost)

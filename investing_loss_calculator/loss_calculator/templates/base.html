@@ -1,0 +1,73 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loss Calculator</title>
+</head>
+<header>
+    <h1>Welcome to the Investment Loss Calculator</h1>
+</header>
+
+<body>
+    <form method="POST" action="{% url 'home' %}">
+    {% csrf_token %}
+    <label for="ticker">Ticker Symbol:</label>
+    <input type="text" id="ticker" name="ticker" required>
+
+    <label for="name">Name of Stock: </label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="datebought">Date Bought [year-mm-dd]: </label>
+    <input type="text" id="datebought" name="datebought" required>
+
+    <label for="datesold">Date Sold [year-mm-dd]: </label>
+    <input type="text" id="datesold" name="datesold" required>
+
+    <label for="amountbought">Amount Bought: </label>
+    <input type="text" id="amountbought" name="amountbought" required>
+
+    <button type="submit">Submit</button>
+    </form>
+    {% if error %}
+        <h2>Error: {{ error }} </h2>
+    <hr>
+    {% endif %}
+
+    <h2>Submitted Stocks:</h2>
+    {% if stocks %}
+        <table>
+            <thead>
+                <th>Ticker</th>
+                <th>Name</th>
+                <th>Date Bought</th>
+                <th>Date Sold</th>
+                <th>Amount Bought</th>
+                <th>Total Gain/Loss</th>
+                <th>Percent Gain/Loss</th>
+            </thead>
+            <tbody>
+                {% for stock in stocks %}
+                    <tr>
+                        <td>{{ stock.ticker }}</td>
+                        <td> {{stock.name }}</td>
+                        <td>{{ stock.datebought }}</td>
+                        <td>{{stock.datesold}}</td>
+                        <td>{{stock.amountbought }}</td>
+                        <td>{{stock.dollarchange}}$</td>
+                        <td>{{stock.percentchange}}%</td>
+                    </tr>
+                {% endfor %}     
+            </tbody>
+        </table>
+    {% else %}
+        <h2>No Stocks Submitted</h2>
+    {% endif %}
+
+    <form method="post" action="{% url 'reset_db'%}">
+        {% csrf_token %}
+        <button type="submit">Reset</button>
+    </form>
+</body>
+</html>
